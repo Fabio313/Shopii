@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Entities.v1;
+using Shopii.Domain.Entities.v1;
 
 namespace Shopii.Domain.Commands.v1.Users.CreateUser
 {

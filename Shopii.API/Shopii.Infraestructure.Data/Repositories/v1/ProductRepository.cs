@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Shopii.CrossCutting;
 using Shopii.Domain.Entities.v1;
@@ -19,22 +18,20 @@ namespace Shopii.Infraestructure.Data.Repositories.v1
             _ProductCollection = database.GetCollection<Product>(appSettings.Value.MongoDBSettings.ProductsCollection);
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(Product productFilter)
+        public async Task<IEnumerable<Product>> GetProductsPaginated(int pageNumber, int pageSize)
         {
-            var filter = Builders<Product>.Filter.Empty;
-
-            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(u => u.Sender, new BsonRegularExpression(sender, "i")));
-            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(u => u.Reciver, new BsonRegularExpression(reciver, "i")));
-
-            var result = await _ProductCollection.Find(filter).ToListAsync();
-
-            return result;
+            return await _ProductCollection
+                .Find(Builders<Product>.Filter.Empty)
+                .Skip((pageNumber - 1) * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
         }
 
-        public async Task<bool> CreateProduct(Product Product)
+
+        public async Task<Product> CreateProduct(Product product)
         {
-            await _ProductCollection.InsertOneAsync(Product);
-            return true;
+            await _ProductCollection.InsertOneAsync(product);
+            return product;
         }
     }
 }

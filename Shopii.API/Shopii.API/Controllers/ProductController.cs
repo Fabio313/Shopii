@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shopii.Domain.Commands.v1.Products.CreateProduct;
+using Shopii.Domain.Commands.v1.Products.GetProductsPaginated;
 
 namespace Shopii.API.Controllers
 {
@@ -22,12 +23,12 @@ namespace Shopii.API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SendMessageAsync([FromBody] CreateProductCommand request)
+        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductCommand request)
         {
             try
             {
                 var result = await Mediator.Send(request);
-                return Ok();
+                return Created(result.Id, result);
             }
             catch (Exception ex)
             {
@@ -35,15 +36,14 @@ namespace Shopii.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("paged")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProducts([FromHeader] string? sender, string? reciver)
+        public async Task<IActionResult> GetProducts([FromHeader] int pageNumber, int pageSize)
         {
             try
             {
-                var result = await Mediator.Send(new GetChatQuery() { Sender = sender, Reciver = reciver });
-                result.Messages = result.Messages.OrderBy(x => x.SendDate);
-                return result.Messages.Any() ? Ok(result) : NotFound();
+                var result = await Mediator.Send(new GetProductsPaginatedCommand { PageNumber = pageNumber, PageSize = pageSize });
+                return result.Products.Any() ? Ok(result) : NotFound();
             }
             catch (Exception ex)
             {

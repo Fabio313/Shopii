@@ -1,29 +1,30 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shopii.Domain.Commands.v1.Users.CreateUser;
 using Shopii.Domain.Entities.v1;
 using Shopii.Domain.Interfaces.Repositories.v1;
 using System.Reflection.Metadata;
 
 namespace Shopii.Domain.Commands.v1.Products.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, bool>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreateProductCommandResponse>
     {
         private readonly IProductRepository _productRepository;
         public IMapper Mapper { get; set; }
         public ILogger Logger { get; set; }
 
         public CreateProductCommandHandler(
-            IProductRepository userRepository,
+            IProductRepository productRepository,
             IMapper mapper,
             ILoggerFactory logger)
         {
-            _productRepository = userRepository;
+            _productRepository = productRepository;
             Mapper = mapper;
             Logger = logger.CreateLogger<CreateProductCommandHandler>();
         }
 
-        async Task<bool> IRequestHandler<CreateProductCommand, bool>.Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<CreateProductCommandResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         { 
             try
             {
@@ -35,7 +36,7 @@ namespace Shopii.Domain.Commands.v1.Products.CreateProduct
 
                 Logger.LogInformation($"Fim metodo {nameof(CreateProductCommandHandler)}.{nameof(Handle)}");
 
-                return response;
+                return Mapper.Map<CreateProductCommandResponse>(response);
             }
             catch (Exception ex)
             {

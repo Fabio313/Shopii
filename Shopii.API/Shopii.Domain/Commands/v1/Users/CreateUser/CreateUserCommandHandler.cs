@@ -35,9 +35,6 @@ namespace Shopii.Domain.Commands.v1.Users.CreateUser
 
                 user.Password = HashingHelper.ComputeSha256Hash(request.Password);
 
-                if ((await _userRepository.GetUsers(email: request.Email)).Count() > 0)
-                    throw new BadRequestException("Já existe um usuário com esse e-mail.");
-
                 var response = await _userRepository.CreateUser(user);
 
                 Logger.LogInformation($"Fim metodo {nameof(CreateUserCommandHandler)}.{nameof(Handle)}");
