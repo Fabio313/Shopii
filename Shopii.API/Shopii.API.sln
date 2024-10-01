@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopii.API", "Shopii.API\Shopii.API.csproj", "{891A99FD-0B67-4B64-8D41-5A6184CD2B40}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{F9215A9C-DD49-4E71-ADFD-EE41C97AA3DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopii.API", "Shopii.API\Shopii.API.csproj", "{891A99FD-0B67-4B64-8D41-5A6184CD2B40}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{6E1B6F8F-33DB-4D2D-ABD5-FB497A872295}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infraestructure", "3 - Infraestructure", "{633D2B48-6153-4E53-99BD-AE6986E4A8F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopii.Domain", "Shopii.Domain\Shopii.Domain.csproj", "{7DA466FE-4C1D-46F6-98FB-110E4B2E578C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopii.Infraestructure.Data", "Shopii.Infraestructure.Data\Shopii.Infraestructure.Data.csproj", "{327A2099-F6BF-4882-9899-4975EB6FA2DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopii.Infraestructure.Data", "Shopii.Infraestructure.Data\Shopii.Infraestructure.Data.csproj", "{327A2099-F6BF-4882-9899-4975EB6FA2DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - CrossCutting", "4 - CrossCutting", "{E8F964DF-96E0-40C1-90EF-4DC853A4BE25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopii.CrossCutting", "Shopii.CrossCutting\Shopii.CrossCutting.csproj", "{A67F3616-2673-4EFB-89A9-93F0083AA752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopii.CrossCutting", "Shopii.CrossCutting\Shopii.CrossCutting.csproj", "{A67F3616-2673-4EFB-89A9-93F0083AA752}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopii.Domain", "Shopii.Domain\Shopii.Domain.csproj", "{DE181514-503E-46F6-824D-E84807A2BABA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{891A99FD-0B67-4B64-8D41-5A6184CD2B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{891A99FD-0B67-4B64-8D41-5A6184CD2B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{891A99FD-0B67-4B64-8D41-5A6184CD2B40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DA466FE-4C1D-46F6-98FB-110E4B2E578C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DA466FE-4C1D-46F6-98FB-110E4B2E578C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DA466FE-4C1D-46F6-98FB-110E4B2E578C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DA466FE-4C1D-46F6-98FB-110E4B2E578C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{327A2099-F6BF-4882-9899-4975EB6FA2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{327A2099-F6BF-4882-9899-4975EB6FA2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{327A2099-F6BF-4882-9899-4975EB6FA2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,15 +37,19 @@ Global
 		{A67F3616-2673-4EFB-89A9-93F0083AA752}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A67F3616-2673-4EFB-89A9-93F0083AA752}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A67F3616-2673-4EFB-89A9-93F0083AA752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE181514-503E-46F6-824D-E84807A2BABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE181514-503E-46F6-824D-E84807A2BABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE181514-503E-46F6-824D-E84807A2BABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE181514-503E-46F6-824D-E84807A2BABA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{891A99FD-0B67-4B64-8D41-5A6184CD2B40} = {F9215A9C-DD49-4E71-ADFD-EE41C97AA3DE}
-		{7DA466FE-4C1D-46F6-98FB-110E4B2E578C} = {6E1B6F8F-33DB-4D2D-ABD5-FB497A872295}
 		{327A2099-F6BF-4882-9899-4975EB6FA2DC} = {633D2B48-6153-4E53-99BD-AE6986E4A8F2}
 		{A67F3616-2673-4EFB-89A9-93F0083AA752} = {E8F964DF-96E0-40C1-90EF-4DC853A4BE25}
+		{DE181514-503E-46F6-824D-E84807A2BABA} = {6E1B6F8F-33DB-4D2D-ABD5-FB497A872295}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65FA6593-BA7B-44CE-B831-BB960284D171}

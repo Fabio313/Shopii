@@ -23,8 +23,25 @@ namespace Shopii.Infraestructure.Data.Repositories.v1
         {
             var filter = Builders<Product>.Filter.Empty;
 
-            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(u => u.Sender, new BsonRegularExpression(sender, "i")));
-            filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(u => u.Reciver, new BsonRegularExpression(reciver, "i")));
+            if (!string.IsNullOrEmpty(productFilter.Name))
+            {
+                filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(p => p.Name, new BsonRegularExpression(productFilter.Name, "i")));
+            }
+
+            if (!string.IsNullOrEmpty(productFilter.Description))
+            {
+                filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Regex(p => p.Description, new BsonRegularExpression(productFilter.Description, "i")));
+            }
+
+            if (productFilter.Price > 0)
+            {
+                filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Eq(p => p.Price, productFilter.Price));
+            }
+
+            if (productFilter.CreatedDate != default)
+            {
+                filter = Builders<Product>.Filter.And(filter, Builders<Product>.Filter.Eq(p => p.CreatedDate, productFilter.CreatedDate));
+            }
 
             var result = await _ProductCollection.Find(filter).ToListAsync();
 

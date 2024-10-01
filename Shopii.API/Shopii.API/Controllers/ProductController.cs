@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shopii.Domain.Commands.v1.Products.CreateProduct;
+using Shopii.Domain.Queries.v1.Product.GetProductByFIlter;
 
 namespace Shopii.API.Controllers
 {
@@ -22,7 +23,7 @@ namespace Shopii.API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SendMessageAsync([FromBody] CreateProductCommand request)
+        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductCommand request)
         {
             try
             {
@@ -37,13 +38,12 @@ namespace Shopii.API.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProducts([FromHeader] string? sender, string? reciver)
+        public async Task<IActionResult> GetProducts([FromHeader] string? name, string? description, decimal? price, DateTime? createdDate)
         {
             try
             {
-                var result = await Mediator.Send(new GetChatQuery() { Sender = sender, Reciver = reciver });
-                result.Messages = result.Messages.OrderBy(x => x.SendDate);
-                return result.Messages.Any() ? Ok(result) : NotFound();
+                var result = await Mediator.Send(new GetProductByFilterQuery(name, description, price, createdDate));
+                return result.Products.Any() ? Ok(result) : NotFound();
             }
             catch (Exception ex)
             {
