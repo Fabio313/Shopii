@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Shopii.CrossCutting.Exceptions;
 using Shopii.CrossCutting.Helper;
 using Shopii.Domain.Interfaces.Repositories.v1;
 using System.Reflection.Metadata;
@@ -33,8 +32,6 @@ namespace Shopii.Domain.Commands.v1.Users.LoginUser
                 request.Password = HashingHelper.ComputeSha256Hash(request.Password);
 
                 var response = await _userRepository.Login(request.Username, request.Password);
-                if (response == null)
-                    throw new NotFoundRequestException("Usuário ou senha incorreto");
 
                 Logger.LogInformation($"Fim metodo {nameof(LoginUserCommandHandler)}.{nameof(Handle)}");
 

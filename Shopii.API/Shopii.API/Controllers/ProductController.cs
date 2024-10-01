@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shopii.Domain.Commands.v1.Products.CreateProduct;
-using Shopii.Domain.Commands.v1.Products.GetProductsPaginated;
+using Shopii.Domain.Queries.v1.Product.GetProductByFIlter;
 
 namespace Shopii.API.Controllers
 {
@@ -28,7 +28,7 @@ namespace Shopii.API.Controllers
             try
             {
                 var result = await Mediator.Send(request);
-                return Created(result.Id, result);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -36,13 +36,13 @@ namespace Shopii.API.Controllers
             }
         }
 
-        [HttpGet("paged")]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProducts([FromHeader] int pageNumber, int pageSize)
+        public async Task<IActionResult> GetProducts([FromHeader] string? name, string? description, decimal? price, DateTime? createdDate)
         {
             try
             {
-                var result = await Mediator.Send(new GetProductsPaginatedCommand { PageNumber = pageNumber, PageSize = pageSize });
+                var result = await Mediator.Send(new GetProductByFilterQuery(name, description, price, createdDate));
                 return result.Products.Any() ? Ok(result) : NotFound();
             }
             catch (Exception ex)
