@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shopii_web/cadastroProduto.dart';
 import 'package:shopii_web/listarProdutos.dart';
+import 'package:shopii_web/loginUser.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/produtos': (context) => ProdutoPage(),
         '/cadastro-produto': (context) => CadastroProdutoPage(),
+        '/login': (context) => LoginScreen()
       },
     );
   }
@@ -24,26 +26,32 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Menu')),
+      appBar: AppBar(title: const Text('Menu')),
       drawer: Drawer(
         child: ListView(
           children: [
             ListTile(
-              title: Text('Consultar Produtos'),
+              title: const Text('Consultar Produtos'),
               onTap: () {
                 Navigator.pushNamed(context, '/produtos');
               },
             ),
             ListTile(
-              title: Text('Cadastrar Produto'),
+              title: const Text('Cadastrar Produto'),
               onTap: () {
                 Navigator.pushNamed(context, '/cadastro-produto');
+              },
+            ),
+            ListTile(
+              title: const Text('Login'),
+              onTap: () {
+                Navigator.pushNamed(context, '/login');
               },
             ),
           ],
         ),
       ),
-      body: Center(child: Text('Bem-vindo ao Sistema de Produtos!')),
+      body: const Center(child: Text('Bem-vindo ao Sistema de Produtos!')),
     );
   }
 }
