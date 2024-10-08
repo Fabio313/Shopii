@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'
-    as http; // Certifique-se de importar a biblioteca http
-import 'produto.dart'; // Certifique-se de importar corretamente a classe Produto
+import 'package:http/http.dart' as http;
+import 'produto.dart';
 
 class CadastroProdutoPage extends StatefulWidget {
   @override
@@ -12,18 +11,15 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final _formKey = GlobalKey<FormState>();
   Produto produto = Produto("", "", 0);
 
-  // Função para cadastrar o produto
   Future<void> cadastrarProduto() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       try {
-        // Fazendo a requisição POST para a API
         final response = await http.post(
           Uri.parse('https://localhost:7012/api/v1/product'),
           headers: {"Content-Type": "application/json"},
-          body: produto
-              .JsonSerialize(), // Serializando o objeto Produto para JSON
+          body: produto.JsonSerialize(),
         );
 
         if (response.statusCode == 200) {

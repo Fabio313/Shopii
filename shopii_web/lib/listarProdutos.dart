@@ -15,10 +15,10 @@ class _ProdutoPageState extends State<ProdutoPage> {
   @override
   void initState() {
     super.initState();
-    fetchEquipamentos();
+    fetchProdutos();
   }
 
-  Future<void> fetchEquipamentos() async {
+  Future<void> fetchProdutos() async {
     try {
       final response =
           await http.get(Uri.parse('https://localhost:7012/api/v1/product'));
@@ -29,7 +29,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
           isLoading = false;
         });
       } else {
-        throw Exception('Falha ao carregar equipamentos');
+        throw Exception('Falha ao carregar produtos');
       }
     } catch (e) {
       setState(() {
@@ -42,7 +42,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Equipamentos')),
+      appBar: AppBar(title: const Text('Produtos')),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(

@@ -36,13 +36,13 @@ namespace Shopii.API.Controllers
             }
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromHeader] string username, string password)
+        public async Task<IActionResult> Login(LoginUserCommand request)
         {
             try
             {
-                var result = await Mediator.Send(new LoginUserCommand() { Username = username, Password = password });
+                var result = await Mediator.Send(request);
                 return Ok(result);
             }
             catch (Exception ex)

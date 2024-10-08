@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shopii_web/cadastroProduto.dart';
+import 'package:shopii_web/listarProdutos.dart';
 import 'dart:convert';
+
+import 'package:shopii_web/main.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginScreen(),
+      routes: {
+        '/menu': (context) => HomePage(),
+        '/produtos': (context) => ProdutoPage(),
+        '/cadastro-produto': (context) => CadastroProdutoPage()
+      },
+    );
+  }
+}
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  // Função para realizar o login via API
   Future<void> _login() async {
     setState(() {
       _isLoading = true;
@@ -20,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text;
     final password = _passwordController.text;
 
-    // Substitua localhost pelo IP da sua máquina ou use 10.0.2.2 no emulador
     final response = await http.post(
       Uri.parse('https://localhost:7012/api/v1/users/login'),
       headers: {'Content-Type': 'application/json'},
@@ -30,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }),
     );
 
-    if (!mounted) return; // Verifica se o widget ainda está montado após a operação assíncrona
+    if (!mounted) return;
 
     setState(() {
       _isLoading = false;
@@ -40,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login successful!')),
       );
+      Navigator.pushNamed(context, '/menu');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid username or password.')),
@@ -47,30 +68,28 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Função para realizar o cadastro via API
-  Future<void> _register(String name, String email, String password) async {
+  Future<void> _register(String username, String email, String password) async {
     setState(() {
       _isLoading = true;
     });
 
-    // Substitua localhost pelo IP da sua máquina ou use 10.0.2.2 no emulador
     final response = await http.post(
       Uri.parse('https://localhost:7012/api/v1/users'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'name': name,
-        'email': email,
+        'username': username,
         'password': password,
+        'email': email,
       }),
     );
 
-    if (!mounted) return; // Verifica se o widget ainda está montado após a operação assíncrona
+    if (!mounted) return;
 
     setState(() {
       _isLoading = false;
     });
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Registration successful!')),
       );
@@ -81,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Função para mostrar o modal de registro
   void _showRegistrationModal() {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
@@ -103,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 10,
@@ -115,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Cadastro",
                     style: TextStyle(
                       fontSize: 28,
@@ -123,13 +141,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Color(0xFFC2370D),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  _buildTextField("Nome Completo", Icons.person, nameController),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 20),
+                  _buildTextField(
+                      "Nome Completo", Icons.person, nameController),
+                  const SizedBox(height: 10),
                   _buildTextField("Email", Icons.email, emailController),
-                  SizedBox(height: 10),
-                  _buildTextField("Senha", Icons.lock, passwordController, obscureText: true),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  _buildTextField("Senha", Icons.lock, passwordController,
+                      obscureText: true),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -137,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text(
+                        child: const Text(
                           "Cancelar",
                           style: TextStyle(color: Colors.orange),
                         ),
@@ -170,8 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
       transitionBuilder: (context, anim1, anim2, child) {
         return SlideTransition(
           position: Tween<Offset>(
-            begin: Offset(0, -1),
-            end: Offset(0, 0.35),
+            begin: const Offset(0, -1),
+            end: const Offset(0, 0.35),
           ).animate(CurvedAnimation(
             parent: anim1,
             curve: Curves.easeInOut,
@@ -182,8 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // Função para criar campos de texto reutilizáveis
-  Widget _buildTextField(String hint, IconData icon, TextEditingController controller, {bool obscureText = false}) {
+  Widget _buildTextField(
+      String hint, IconData icon, TextEditingController controller,
+      {bool obscureText = false}) {
     return SizedBox(
       width: 300,
       child: TextField(
@@ -216,12 +237,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Bem vindo de Volta <3!",
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFFC2370D),
+                        color: Color(0xFFC2370D),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -283,9 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                          onPressed: () {
-                            // Implementar lógica de recuperação de senha aqui
-                          },
+                          onPressed: () {},
                           child: Text(
                             "Esqueceu a senha?",
                             style: TextStyle(color: Color(0xFFC2370D)),
