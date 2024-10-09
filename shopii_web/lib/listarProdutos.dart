@@ -42,34 +42,61 @@ class _ProdutoPageState extends State<ProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Produtos')),
+      appBar: AppBar(
+        title: const Text('Produtos'),
+        backgroundColor: Colors.deepPurpleAccent,
+        elevation: 0,
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: produtos.length,
-              itemBuilder: (context, index) {
-                final produto = produtos[index];
-                return Container(
-                  margin: const EdgeInsets.all(8.0), // Espaçamento externo
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.blue, width: 2), // Borda personalizada
-                    borderRadius:
-                        BorderRadius.circular(10), // Borda arredondada
-                    color: Colors.white, // Cor de fundo opcional
-                  ),
-                  child: ListTile(
-                    title: Text(produto['name']),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(produto['description']),
-                        Text(produto['price'].toString()),
-                      ],
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: produtos.length,
+                itemBuilder: (context, index) {
+                  final produto = produtos[index];
+                  return Card(
+                    elevation: 5, // Adiciona sombra ao cartão
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                );
-              },
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 5), // Espaçamento
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(15),
+                      title: Text(
+                        produto['name'],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 5),
+                          Text(
+                            produto['description'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            'Preço: R\$ ${produto['price'].toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
     );
   }
