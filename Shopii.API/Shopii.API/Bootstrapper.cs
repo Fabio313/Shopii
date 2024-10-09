@@ -16,7 +16,7 @@ namespace Shopii.API
             builder.Services.AddTransient(sp => sp.GetRequiredService<IOptions<AppSettingsConfigurations>>().Value);
             var appSettings = builder?.Services?.BuildServiceProvider()?.GetRequiredService<AppSettingsConfigurations>();
 
-            InjectRepository(builder,appSettings);
+            InjectRepository(builder, appSettings);
 
             builder.Services.AddMediatR(
                 new MediatRServiceConfiguration().RegisterServicesFromAssemblyContaining(typeof(CreateUserCommandHandler)));
@@ -26,13 +26,11 @@ namespace Shopii.API
 
         private static void InjectRepository(WebApplicationBuilder builder, AppSettingsConfigurations appSettings)
         {
-            // Configurar a injeção do IMongoClient
             builder.Services.AddSingleton<IMongoClient>(sp =>
             {
                 return new MongoClient(appSettings.MongoDBSettings.ConnectionString);
             });
 
-            // Registrar o Repository para injeção de dependência
             builder.Services.AddSingleton<IUserRepository, UserRepository>();
             builder.Services.AddSingleton<IProductRepository, ProductRepository>();
         }

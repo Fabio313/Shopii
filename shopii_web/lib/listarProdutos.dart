@@ -56,12 +56,12 @@ class _ProdutoPageState extends State<ProdutoPage> {
                 itemBuilder: (context, index) {
                   final produto = produtos[index];
                   return Card(
-                    elevation: 5, // Adiciona sombra ao cartão
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 5), // Espaçamento
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(15),
                       title: Text(
